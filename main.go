@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	itemsNum := 100
+	const itemsNum = 100
 	array := make([]int, itemsNum)
 	for i := 0; i < itemsNum; i++ {
 		array[i] = rand.Intn(maxVal)
