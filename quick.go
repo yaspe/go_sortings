@@ -15,8 +15,7 @@ func drawQuickSortInd(array []int, left, right int, anim *gif.GIF) {
 	i := left
 	j := right - 1
 
-	array[pivotpt], array[right] = array[right], array[pivotpt]
-	drawArray(array, pivotpt, right, anim)
+	swapAndDraw(array, pivotpt, right, anim)
 	pivotpt = right
 
 	for i < j {
@@ -40,8 +39,7 @@ func drawQuickSortInd(array []int, left, right int, anim *gif.GIF) {
 		i++
 	}
 
-	array[i], array[pivotpt] = array[pivotpt], array[i]
-	drawArray(array, i, pivotpt, anim)
+	swapAndDraw(array, i, pivotpt, anim)
 
 	drawQuickSortInd(array, left, i-1, anim)
 	drawQuickSortInd(array, i+1, right, anim)

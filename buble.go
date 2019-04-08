@@ -9,8 +9,7 @@ func drawBubleSort(array []int, anim *gif.GIF) {
 		changed := false
 		for b := 1; b < len(array)-a; b++ {
 			if array[b-1] > array[b] {
-				array[b-1], array[b] = array[b], array[b-1]
-				drawArray(array, b-1, b, anim)
+				swapAndDraw(array, b-1, b, anim)
 				changed = true
 			}
 		}

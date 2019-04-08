@@ -25,6 +25,9 @@ func drawPoint(x, y int, img *image.Paletted, ci uint8) {
 }
 
 func swapAndDraw(array []int, s1, s2 int, anim *gif.GIF) {
+	if s1 == s2 {
+		return
+	}
 	drawArray(array, s1, s2, anim)
 	array[s1], array[s2] = array[s2], array[s1]
 }
