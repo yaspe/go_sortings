@@ -2,6 +2,7 @@ package main
 
 import (
 	"math/rand"
+	"path"
 )
 
 func main() {
@@ -11,8 +12,9 @@ func main() {
 		array[i] = rand.Intn(maxVal)
 	}
 
-	makeSortingGif(array, drawQuickSort, "/Users/ya-spe/Downloads/quick.gif")
-	makeSortingGif(array, drawBubleSort, "/Users/ya-spe/Downloads/buble.gif")
-	makeSortingGif(array, drawMergeSort, "/Users/ya-spe/Downloads/merge.gif")
+	dir := "/Users/ya-spe/Downloads"
+	makeSortingGif(array, drawQuickSort, path.Join(dir, "quick.gif"))
+	makeSortingGif(array, drawBubleSort, path.Join(dir, "buble.gif"))
+	makeSortingGif(array, drawMergeSort, path.Join(dir, "merge.gif"))
 
 }
