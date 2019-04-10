@@ -12,9 +12,21 @@ func main() {
 		array[i] = rand.Intn(maxVal)
 	}
 
+	steps1 := makeSortSteps(array, bubleSort)
+	steps1.setPadding(0, 0)
+
+	steps2 := makeSortSteps(array, drawMergeSort)
+	steps2.setPadding(200, 0)
+
+	steps3 := makeSortSteps(array, quickSort)
+	steps3.setPadding(0, 200)
+
+	steps4 := makeSortSteps(array, bubleSort)
+	steps4.setPadding(200, 200)
+
+	steps1.merge(&steps2).merge(&steps3).merge(&steps4)
+
 	dir := "/Users/ya-spe/Downloads"
-	makeSortingGif(array, drawQuickSort, path.Join(dir, "quick.gif"))
-	makeSortingGif(array, drawBubleSort, path.Join(dir, "buble.gif"))
-	makeSortingGif(array, drawMergeSort, path.Join(dir, "merge.gif"))
+	makeSortingGifFromSteps(&steps1, path.Join(dir, "sortings.gif"))
 
 }

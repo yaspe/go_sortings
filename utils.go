@@ -4,14 +4,13 @@ import (
 	"image"
 	"image/color"
 	"image/gif"
-
 	"os"
 )
 
 var palette = []color.Color{color.White, color.Black, color.RGBA{0, 0, 255, 255}}
 
 const (
-	pointSize = 8
+	pointSize = 5
 	canvSize  = 400
 	maxVal    = 100
 )
@@ -24,45 +23,45 @@ func drawPoint(x, y int, img *image.Paletted, ci uint8) {
 	}
 }
 
-func swapAndDraw(array []int, s1, s2 int, anim *gif.GIF) {
-	if s1 == s2 {
-		return
+func makeSortingGifFromSteps(s *SortSteps, filename string) {
+	anim := gif.GIF{}
+
+	for _, step := range s.steps {
+		drawStep(&step, &anim)
 	}
-	drawArray(array, s1, s2, anim)
-	array[s1], array[s2] = array[s2], array[s1]
+
+	f, _ := os.Create(filename)
+	defer f.Close()
+	gif.EncodeAll(f, &anim)
 }
 
-func drawArray(array []int, s1, s2 int, anim *gif.GIF) {
+func drawStep(s *SortStep, anim *gif.GIF) {
 	rect := image.Rect(0, 0, canvSize, canvSize)
 	img := image.NewPaletted(rect, palette)
-	stepX := int(0.9*canvSize) / len(array)
-	stepY := int(0.9*canvSize) / maxVal
+	stepX := 1.25 //int(0.35*canvSize) / len(s.array)
+	stepY := 1.25 //int(0.35*canvSize) / maxVal
 
-	for x, y := range array {
+	for i, point := range s.array {
+		x := point.x
+		y := point.y
 		var ci uint8 = 1
-		if x == s1 || x == s2 {
+		if x == s.p1 || x == s.p2 {
 			ci = 2
 		}
-		drawPoint(int(0.1*canvSize)+x*stepX, int(0.1*canvSize)+y*stepY, img, ci)
+		drawPoint(s.x[i]+int(0.1*canvSize+float64(x)*stepX), s.y[i]+int(0.1*canvSize+float64(y)*stepY), img, ci)
 	}
 
 	anim.Delay = append(anim.Delay, 1)
 	anim.Image = append(anim.Image, img)
 }
 
-func makeSortingGif(array []int, sorting func([]int, *gif.GIF), filename string) {
-	anim := gif.GIF{}
+func makeSortSteps(array []int, sorting func([]int, *SortSteps)) SortSteps {
 	arrayCopy := make([]int, len(array))
 	copy(arrayCopy, array)
-	drawArray(arrayCopy, -1, -1, &anim)
 
-	sorting(arrayCopy, &anim)
+	steps := SortSteps{}
+	steps.append(array, -1, -1)
 
-	for i := 0; i < 100; i++ {
-		drawArray(arrayCopy, -1, -1, &anim)
-	}
-
-	f, _ := os.Create(filename)
-	defer f.Close()
-	gif.EncodeAll(f, &anim)
+	sorting(arrayCopy, &steps)
+	return steps
 }

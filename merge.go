@@ -1,10 +1,6 @@
 package main
 
-import (
-	"image/gif"
-)
-
-func merge(array []int, start, mid, end int, anim *gif.GIF) { // todo make inplace
+func merge(array []int, start, mid, end int, steps *SortSteps) { // todo make inplace
 	len1 := mid - start
 	len2 := end - mid + 1
 
@@ -32,26 +28,26 @@ func merge(array []int, start, mid, end int, anim *gif.GIF) { // todo make inpla
 			array[cur] = right[cur2]
 			cur2++
 		}
-		drawArray(array, cur, -1, anim)
+		steps.append(array, cur, -1)
 	}
 }
 
-func drawMergeSortInd(array []int, start, end int, anim *gif.GIF) {
+func drawMergeSortInd(array []int, start, end int, steps *SortSteps) {
 	if end-start == 0 { // 1 elem
 		return
 	} else if end-start == 1 {
 		if array[start] > array[end] {
-			swapAndDraw(array, start, end, anim)
+			steps.swapAndSave(array, start, end)
 		}
 		return
 	}
 
 	mid := (start + end) / 2
-	drawMergeSortInd(array, start, mid, anim)
-	drawMergeSortInd(array, mid, end, anim)
-	merge(array, start, mid, end, anim)
+	drawMergeSortInd(array, start, mid, steps)
+	drawMergeSortInd(array, mid, end, steps)
+	merge(array, start, mid, end, steps)
 }
 
-func drawMergeSort(array []int, anim *gif.GIF) {
-	drawMergeSortInd(array, 0, len(array)-1, anim)
+func drawMergeSort(array []int, steps *SortSteps) {
+	drawMergeSortInd(array, 0, len(array)-1, steps)
 }

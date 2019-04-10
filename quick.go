@@ -1,10 +1,6 @@
 package main
 
-import (
-	"image/gif"
-)
-
-func drawQuickSortInd(array []int, left, right int, anim *gif.GIF) {
+func quickSortInd(array []int, left, right int, steps *SortSteps) {
 	if left >= right {
 		return
 	}
@@ -15,7 +11,7 @@ func drawQuickSortInd(array []int, left, right int, anim *gif.GIF) {
 	i := left
 	j := right - 1
 
-	swapAndDraw(array, pivotpt, right, anim)
+	steps.swapAndSave(array, pivotpt, right)
 	pivotpt = right
 
 	for i < j {
@@ -28,8 +24,7 @@ func drawQuickSortInd(array []int, left, right int, anim *gif.GIF) {
 		}
 
 		if i < j {
-			array[i], array[j] = array[j], array[i]
-			drawArray(array, i, j, anim)
+			steps.swapAndSave(array, i, j)
 			i++
 			j--
 		}
@@ -39,12 +34,12 @@ func drawQuickSortInd(array []int, left, right int, anim *gif.GIF) {
 		i++
 	}
 
-	swapAndDraw(array, i, pivotpt, anim)
+	steps.swapAndSave(array, i, pivotpt)
 
-	drawQuickSortInd(array, left, i-1, anim)
-	drawQuickSortInd(array, i+1, right, anim)
+	quickSortInd(array, left, i-1, steps)
+	quickSortInd(array, i+1, right, steps)
 }
 
-func drawQuickSort(array []int, anim *gif.GIF) {
-	drawQuickSortInd(array, 0, len(array)-1, anim)
+func quickSort(array []int, steps *SortSteps) {
+	quickSortInd(array, 0, len(array)-1, steps)
 }
