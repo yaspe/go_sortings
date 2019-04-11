@@ -45,7 +45,7 @@ func drawStep(s *SortStep, anim *gif.GIF) {
 		x := point.x
 		y := point.y
 		var ci uint8 = 1
-		if x == s.p1 || x == s.p2 {
+		if point.highlighted {
 			ci = 2
 		}
 		drawPoint(s.x[i]+int(0.1*canvSize+float64(x)*stepX), s.y[i]+int(0.1*canvSize+float64(y)*stepY), img, ci)

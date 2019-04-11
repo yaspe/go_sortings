@@ -15,13 +15,13 @@ func main() {
 	steps1 := makeSortSteps(array, bubleSort)
 	steps1.setPadding(0, 0)
 
-	steps2 := makeSortSteps(array, drawMergeSort)
+	steps2 := makeSortSteps(array, insertionSort)
 	steps2.setPadding(200, 0)
 
-	steps3 := makeSortSteps(array, quickSort)
+	steps3 := makeSortSteps(array, drawMergeSort)
 	steps3.setPadding(0, 200)
 
-	steps4 := makeSortSteps(array, bubleSort)
+	steps4 := makeSortSteps(array, quickSort)
 	steps4.setPadding(200, 200)
 
 	steps1.merge(&steps2).merge(&steps3).merge(&steps4)

@@ -1,13 +1,13 @@
 package main
 
 type Point struct {
-	x, y int
+	x, y        int
+	highlighted bool
 }
 
 type SortStep struct {
-	array  []Point
-	p1, p2 int
-	x, y   []int // point of start
+	array []Point
+	x, y  []int // point of start
 }
 
 type SortSteps struct {
@@ -18,10 +18,11 @@ func (s *SortSteps) append(step []int, p1, p2 int) {
 	stepPoints := make([]Point, len(step))
 	i := 0
 	for x, y := range step {
-		stepPoints[i] = Point{x, y}
+		stepPoints[i] = Point{x, y, i == p1 || i == p2}
 		i++
 	}
-	newStep := SortStep{array: stepPoints, p1: p1, p2: p2, x: make([]int, len(step)), y: make([]int, len(step))}
+
+	newStep := SortStep{array: stepPoints, x: make([]int, len(step)), y: make([]int, len(step))}
 	s.steps = append(s.steps, newStep)
 }
 
