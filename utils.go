@@ -5,6 +5,10 @@ import (
 	"image/color"
 	"image/gif"
 	"os"
+
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/math/fixed"
 )
 
 var palette = []color.Color{color.White, color.Black, color.RGBA{0, 0, 255, 255}}
@@ -23,6 +27,19 @@ func drawPoint(x, y int, img *image.Paletted, ci uint8) {
 	}
 }
 
+func addLabel(img *image.Paletted, x, y int, label string) {
+	col := color.RGBA{200, 100, 0, 255}
+	point := fixed.Point26_6{fixed.Int26_6(x * 64), fixed.Int26_6(y * 64)}
+
+	d := &font.Drawer{
+		Dst:  img,
+		Src:  image.NewUniform(col),
+		Face: basicfont.Face7x13,
+		Dot:  point,
+	}
+	d.DrawString(label)
+}
+
 func makeSortingGifFromSteps(s *SortSteps, filename string) {
 	anim := gif.GIF{}
 
@@ -38,6 +55,12 @@ func makeSortingGifFromSteps(s *SortSteps, filename string) {
 func drawStep(s *SortStep, anim *gif.GIF) {
 	rect := image.Rect(0, 0, canvSize, canvSize)
 	img := image.NewPaletted(rect, palette)
+
+	addLabel(img, 40, 30, "Buble")
+	addLabel(img, 40, 230, "Merge")
+	addLabel(img, 240, 30, "Insertion")
+	addLabel(img, 240, 230, "Quick")
+
 	stepX := 1.25 //int(0.35*canvSize) / len(s.array)
 	stepY := 1.25 //int(0.35*canvSize) / maxVal
 
