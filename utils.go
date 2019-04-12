@@ -52,9 +52,19 @@ func makeSortingGifFromSteps(s *SortSteps, filename string) {
 	gif.EncodeAll(f, &anim)
 }
 
+func drawBounds(img *image.Paletted) {
+	for i := 0; i < canvSize; i++ {
+		img.SetColorIndex(0, i, 1)
+		img.SetColorIndex(canvSize-1, i, 1)
+		img.SetColorIndex(i, 0, 1)
+		img.SetColorIndex(i, canvSize-1, 1)
+	}
+}
+
 func drawStep(s *SortStep, anim *gif.GIF) {
 	rect := image.Rect(0, 0, canvSize, canvSize)
 	img := image.NewPaletted(rect, palette)
+	drawBounds(img)
 
 	addLabel(img, 40, 30, "Buble")
 	addLabel(img, 40, 230, "Merge")
