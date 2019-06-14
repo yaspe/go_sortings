@@ -88,7 +88,7 @@ func drawStep(s *SortStep, anim *gif.GIF) {
 	anim.Image = append(anim.Image, img)
 }
 
-func makeSortSteps(array []int, sorting func([]int, *SortSteps)) SortSteps {
+func makeSortSteps(array []int, sorting func([]int, *SortSteps), c chan SortSteps) {
 	arrayCopy := make([]int, len(array))
 	copy(arrayCopy, array)
 
@@ -96,5 +96,5 @@ func makeSortSteps(array []int, sorting func([]int, *SortSteps)) SortSteps {
 	steps.append(array, -1, -1)
 
 	sorting(arrayCopy, &steps)
-	return steps
+	c <- steps
 }
