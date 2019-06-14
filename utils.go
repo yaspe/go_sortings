@@ -66,10 +66,11 @@ func drawStep(s *SortStep, anim *gif.GIF) {
 	img := image.NewPaletted(rect, palette)
 	drawBounds(img)
 
-	addLabel(img, 40, 30, "Buble")
-	addLabel(img, 40, 230, "Merge")
-	addLabel(img, 240, 30, "Insertion")
-	addLabel(img, 240, 230, "Quick")
+	// todo: fix expected speed hardcoded here
+	addLabel(img, 40, 30, "Quick")
+	addLabel(img, 40, 230, "Insertion")
+	addLabel(img, 240, 30, "Merge")
+	addLabel(img, 240, 230, "Buble")
 
 	stepX := 1.25 //int(0.35*canvSize) / len(s.array)
 	stepY := 1.25 //int(0.35*canvSize) / maxVal
